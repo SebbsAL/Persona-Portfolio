@@ -16,8 +16,8 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 
 const REVEAL_CONTENT = [
   {
-    upper: ["name: Sebastian", "age:23"],
-    lower: "major: Full-Stack Programmer",
+    upper: ["Name: Sebastian", "Age:23"],
+    lower: "Title: Full-Stack Programmer",
   },
   {
     upper: [
@@ -25,7 +25,7 @@ const REVEAL_CONTENT = [
       "Vikings kept cats on ships for pest control (and vibes).",
       "In medieval Europe, animals could be put on trial for crimes",
     ],
-    lower: "abbove is some history fun fact",
+    lower: "above is some history fun fact",
   },
   {
     upper: [
@@ -33,7 +33,7 @@ const REVEAL_CONTENT = [
       "The shortest war in history lasted 38–45 minutes (Britain vs Zanzibar).",
       "Humans have been writing for ~5,000 years",
     ],
-    lower: "yes it's a place holder",
+    lower: "No, this is NOT a placeholder",
   },
 ];
 

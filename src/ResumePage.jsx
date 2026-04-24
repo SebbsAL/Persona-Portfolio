@@ -9,10 +9,10 @@ const ITEMS = [
 ];
 
 const EDUCATION_ROWS = [
-  { index: "01", title: "General Education", status: "Complete" },
-  { index: "02", title: "Computer Science Core", status: "In Progress" },
-  { index: "03", title: "Elective Track", status: "Queued" },
-  { index: "04", title: "Capstone Prep", status: "Pending" },
+  { index: "01", title: "Simulador de Gasto Diario", status: "Completed" },
+  { index: "02", title: "Music Stream", status: "Completed" },
+  { index: "03", title: "CampusBuild", status: "Completed" },
+  { index: "04", title: "WhatsApp Bot", status: "Pending" },
 ];
 
 export default function ResumePage({ src }) {
@@ -439,7 +439,7 @@ export default function ResumePage({ src }) {
           <div className="resume-detail-panel">
             <div className="resume-detail-top">
               <div className="resume-detail-top-index">01</div>
-              <div className="resume-detail-top-title">EDUCATION LOG</div>
+              <div className="resume-detail-top-title">PROYECTOS</div>
               <div className="resume-detail-top-progress">7/5</div>
             </div>
 
