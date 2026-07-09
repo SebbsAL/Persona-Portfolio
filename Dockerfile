@@ -10,8 +10,9 @@ RUN npm run build
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Configuramos Nginx para escuchar en 8080
 RUN echo 'server { \
-    listen 8080;; \
+    listen 8080; \
     location / { \
         root /usr/share/nginx/html; \
         index index.html; \
