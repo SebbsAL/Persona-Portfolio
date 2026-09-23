@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { href } from "react-router-dom";
 
 const ITEMS = [
   { id: "about",   label: "ABOUT ME",      page: "about",   fontSize: 80, offsetX: 0,  offsetY: 0,  skew: -6,  skewY: 10  },
   { id: "resume",  label: "RESUME",        page: "resume",  fontSize: 66, offsetX: 20, offsetY: 8,  skew: -11, skewY: -10 },
-  { id: "github",  label: "GITHUB LINK",   page: "github",  fontSize: 68, offsetX: 8, offsetY: 6,  skew: 0, skewY: -4  },
-  { id: "socials", label: "SOCIALS",       page: "socials", fontSize: 74, offsetX: 16, offsetY: 8,  skew: -3,  skewY: 5   },
-  { id: "sideproj",label: "SIDE PROJECTS", page: "sideproj",fontSize: 56, offsetX: 10, offsetY: 6,  skew: -4,  skewY: 7   },
+  { id: "github",  label: "GITHUB LINK",   href: "https://github.com/SebbsAL",  fontSize: 68, offsetX: 8, offsetY: 6,  skew: 0, skewY: -4  },
+  { id: "socials", label: "LINKEDIN",       href: "https://www.linkedin.com/in/sebastian-eduardo-ayala-lopez-a2321b424/", fontSize: 74, offsetX: 16, offsetY: 8,  skew: -3,  skewY: 5   },
+  { id: "sideproj",label: "SIDE PROJECTS", href: "https://eps-reminder.vercel.app/",fontSize: 56, offsetX: 10, offsetY: 6,  skew: -4,  skewY: 7   },
 ];
 
 const CLIP_SHAPES = [
@@ -35,7 +36,14 @@ export default function P3Menu({ onNavigate }) {
     const onKey = (e) => {
       if (e.key === "ArrowUp")   activate(Math.max(0, active - 1));
       if (e.key === "ArrowDown") activate(Math.min(ITEMS.length - 1, active + 1));
-      if (e.key === "Enter")     onNavigate?.(ITEMS[active].page);
+      if (e.key === "Enter") {
+        const current = ITEMS[active];
+        if (current.href) {
+          window.open(current.href, "_blank", "noopener,noreferrer");
+        } else {
+          onNavigate?.(current.page);
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -241,7 +249,14 @@ export default function P3Menu({ onNavigate }) {
                   marginTop: item.offsetY,
                   transitionDelay: mounted ? `${i * 80}ms` : "0ms",
                 }}
-                onClick={(e) => { e.preventDefault(); onNavigate?.(item.page); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (item.href) {
+                    window.open(item.href, "_blank", "noopener,noreferrer");
+                  } else {
+                    onNavigate?.(item.page);
+                    }
+                  }}
                 onMouseEnter={() => activate(i)}
                 aria-current={isActive ? "page" : undefined}
               >
