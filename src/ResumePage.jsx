@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import main2 from "./assets/main2.mp4";
 
 const ITEMS = [
   { id: "i", badge: "I", title: "EDUCATION", subtitle: "University / Coursework", rank: 3 },
@@ -15,7 +16,8 @@ const EDUCATION_ROWS = [
   { index: "04", title: "WhatsApp Bot", status: "Pending" },
 ];
 
-export default function ResumePage({ src }) {
+export default function ResumePage() {
+  const src = main2;
   const navigate = useNavigate();
   const [active, setActive] = useState(1);
   const [mounted, setMounted] = useState(false);
