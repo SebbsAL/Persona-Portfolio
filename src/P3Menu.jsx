@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { href } from "react-router-dom";
-
 const ITEMS = [
-  { id: "about",   label: "ABOUT ME",      page: "about",   fontSize: 80, offsetX: 0,  offsetY: 0,  skew: -6,  skewY: 10  },
-  { id: "resume",  label: "RESUME",        page: "resume",  fontSize: 66, offsetX: 20, offsetY: 8,  skew: -11, skewY: -10 },
-  { id: "github",  label: "GITHUB LINK",   href: "https://github.com/SebbsAL",  fontSize: 68, offsetX: 8, offsetY: 6,  skew: 0, skewY: -4  },
+  { id: "about",   label: "SOBRE MÍ",      page: "about",   fontSize: 80, offsetX: 0,  offsetY: 0,  skew: -6,  skewY: 10  },
+  { id: "resume",  label: "EDUCACION",        page: "resume",  fontSize: 66, offsetX: 20, offsetY: 8,  skew: -11, skewY: -10 },
+  { id: "github",  label: "GITHUB",   href: "https://github.com/SebbsAL",  fontSize: 68, offsetX: 8, offsetY: 6,  skew: 0, skewY: -4  },
   { id: "socials", label: "LINKEDIN",      href: "https://www.linkedin.com/in/sebastian-eduardo-ayala-lopez-a2321b424/", fontSize: 74, offsetX: 16, offsetY: 8,  skew: -3,  skewY: 5   },
-  { id: "sideproj",label: "SIDE PROJECTS", href: "https://eps-reminder.vercel.app/",fontSize: 56, offsetX: 10, offsetY: 6,  skew: -4,  skewY: 7   },
+  { id: "sideproj",label: "BOT DISCORD", href: "https://eps-reminder.vercel.app/",fontSize: 56, offsetX: 10, offsetY: 6,  skew: -4,  skewY: 7   },
 ];
 
 const CLIP_SHAPES = [
@@ -66,14 +64,15 @@ export default function P3Menu({ onNavigate }) {
         .p3-stripe2 { position:absolute; right:9px; top:0; bottom:0; width:2px; background:rgba(245,122,139,0.22); z-index:10; pointer-events:none; }
 
         .p3-menu {
-          position: relative;
-          z-index: 20;
-          padding: 48px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          pointer-events: all;
-        }
+  position: relative;
+  z-index: 20;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 42px;
+  pointer-events: all;
+}
 
         .p3-row {
           position: relative;
