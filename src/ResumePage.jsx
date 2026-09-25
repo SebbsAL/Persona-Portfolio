@@ -36,6 +36,7 @@ const PROJECT_DETAILS = [
 export default function ResumePage() {
   const src = main2;
   const navigate = useNavigate();
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [mounted, setMounted] = useState(false);
   const selectedProject = PROJECT_DETAILS.find((project) => project.id === selectedProjectId);
@@ -48,13 +49,45 @@ export default function ResumePage() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "ArrowLeft") navigate(-1);
-      if (e.key === "Escape" || e.key === "Backspace") navigate(-1);
+      if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.closest("a")) return;
+
+      if (selectedProject) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          window.open(selectedProject.href, "_blank", "noopener,noreferrer");
+        }
+
+        if (e.key === "Escape") {
+          e.preventDefault();
+          setSelectedProjectId(null);
+        }
+
+        return;
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIndex((index) => Math.max(0, index - 1));
+      }
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIndex((index) => Math.min(ITEMS.length - 1, index + 1));
+      }
+
+      if (e.key === "Enter") {
+        e.preventDefault();
+        setSelectedProjectId(ITEMS[activeIndex].id);
+      }
+
+      if (e.key === "ArrowLeft" || e.key === "Escape" || e.key === "Backspace") {
+        navigate("/");
+      }
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [navigate]);
+  }, [activeIndex, navigate, selectedProject]);
 
   return (
     <div id="menu-screen">
@@ -299,7 +332,7 @@ export default function ResumePage() {
         .resume-detail-top {
           position: relative;
           display: grid;
-          grid-template-columns: 70px 1fr auto;
+          grid-template-columns: 70px 1fr;
           align-items: center;
           gap: 14px;
           min-height: 92px;
@@ -320,25 +353,6 @@ export default function ResumePage() {
           line-height: 0.92;
           letter-spacing: 1px;
         }
-        .resume-detail-top-progress {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 24px;
-          letter-spacing: 2px;
-          line-height: 1;
-        }
-        .resume-detail-close {
-          width: 38px;
-          height: 38px;
-          border: 0;
-          background: #08153f;
-          color: #ffffff;
-          font-family: 'Anton', sans-serif;
-          font-size: 22px;
-          line-height: 1;
-          cursor: pointer;
-          clip-path: polygon(0 0, 100% 0, 84% 100%, 0 100%);
-        }
-        .resume-detail-close:focus-visible,
         .resume-project-link:focus-visible {
           outline: 3px solid #ffffff;
           outline-offset: 4px;
@@ -435,14 +449,17 @@ export default function ResumePage() {
         <div className="resume-stack">
           <div className={`resume-list-tag${mounted ? " mounted" : ""}`}>LISTADO DE MIS PROYECTOS</div>
           {ITEMS.map((item, index) => (
-            <button
-              type="button"
+            <div
               key={item.id}
-              className={`resume-card-wrap${selectedProjectId === item.id ? " active" : ""}${mounted ? " mounted" : ""}`}
+              className={`resume-card-wrap${activeIndex === index ? " active" : ""}${mounted ? " mounted" : ""}`}
               style={{ transitionDelay: `${index * 55}ms` }}
               onClick={() => {
+                setActiveIndex(index);
                 setSelectedProjectId((current) => current === item.id ? null : item.id);
               }}
+              role="button"
+              tabIndex={0}
+              aria-pressed={activeIndex === index}
               aria-expanded={selectedProjectId === item.id}
               aria-controls="project-detail-panel"
             >
@@ -461,7 +478,7 @@ export default function ResumePage() {
                   <div className="resume-subtitle">{item.subtitle}</div>
                 </div>
               </div>
-            </button>
+            </div>
           ))}
         </div>
 
@@ -470,14 +487,6 @@ export default function ResumePage() {
             <div className="resume-detail-top">
               <div className="resume-detail-top-index">{selectedItem.rank.toString().padStart(2, "0")}</div>
               <div className="resume-detail-top-title">{selectedItem.title}</div>
-              <button
-                className="resume-detail-close"
-                type="button"
-                onClick={() => setSelectedProjectId(null)}
-                aria-label="Cerrar detalle del proyecto"
-              >
-                X
-              </button>
             </div>
 
             <div className="resume-project-description">
@@ -493,7 +502,7 @@ export default function ResumePage() {
       </div>
 
       <div className="resume-mobile-controls" aria-label="Resume mobile controls">
-        <button className="resume-mobile-btn" type="button" onClick={() => navigate(-1)}>
+        <button className="resume-mobile-btn" type="button" onClick={() => navigate("/")}>
           BACK
         </button>
       </div>
