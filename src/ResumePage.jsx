@@ -3,24 +3,44 @@ import { useNavigate } from "react-router-dom";
 import main2 from "./assets/main2.mp4";
 
 const ITEMS = [
-  { id: "i", badge: "I", title: "EDUCATION", subtitle: "University / Coursework", rank: 3 },
-  { id: "ii", badge: "II", title: "SKILLS", subtitle: "Frontend / Design / UI", rank: 4 },
-  { id: "iii", badge: "III", title: "PROJECTS", subtitle: "Featured Work", rank: 5 },
-  { id: "iv", badge: "IV", title: "EXPERIENCE", subtitle: "Internships / Roles", rank: 2 },
+  { id: "i", badge: "I", title: "MUSIC STREAM", subtitle: "Proyecto HTML + CSS", rank: 1 },
+  { id: "ii", badge: "II", title: "CAMPUS BUILD", subtitle: "PROYECTO JAVASCRIPT", rank: 2 },
+  { id: "iii", badge: "III", title: "NEO METRO", subtitle: "HACKATON", rank: 3 },
+  { id: "iv", badge: "IV", title: "CHIBI PENGUIN STUDIO", subtitle: "RETO DE IA", rank: 4 },
 ];
 
-const EDUCATION_ROWS = [
-  { index: "01", title: "Simulador de Gasto Diario", status: "Completed" },
-  { index: "02", title: "Music Stream", status: "Completed" },
-  { index: "03", title: "CampusBuild", status: "Completed" },
-  { index: "04", title: "WhatsApp Bot", status: "Pending" },
+// Edita la descripción y el href de cada proyecto desde aquí.
+const PROJECT_DETAILS = [
+  {
+    id: "i",
+    description: "Escribe aquí una breve descripción de Music Stream: su objetivo, las tecnologías que utilizaste y lo que aprendiste durante el proyecto.",
+    href: "https://example.com/music-stream",
+  },
+  {
+    id: "ii",
+    description: "Escribe aquí una breve descripción de Campus Build: el problema que resuelve, sus funciones principales y tu aporte al desarrollo.",
+    href: "https://example.com/campus-build",
+  },
+  {
+    id: "iii",
+    description: "Escribe aquí una breve descripción de Neo Metro: el reto de la hackatón, la solución propuesta y los resultados que obtuvo.",
+    href: "https://example.com/neo-metro",
+  },
+  {
+    id: "iv",
+    description: "Escribe aquí una breve descripción de Chibi Penguin Studio: cómo aplicaste la IA y qué experiencia ofrece el proyecto.",
+    href: "https://example.com/chibi-penguin-studio",
+  },
 ];
 
 export default function ResumePage() {
   const src = main2;
   const navigate = useNavigate();
-  const [active, setActive] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const selectedProject = PROJECT_DETAILS.find((project) => project.id === selectedProjectId);
+  const selectedItem = ITEMS.find((item) => item.id === selectedProjectId);
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
@@ -29,15 +49,45 @@ export default function ResumePage() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "ArrowUp") setActive((i) => Math.max(0, i - 1));
-      if (e.key === "ArrowDown") setActive((i) => Math.min(ITEMS.length - 1, i + 1));
-      if (e.key === "ArrowLeft") navigate(-1);
-      if (e.key === "Escape" || e.key === "Backspace") navigate(-1);
+      if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.closest("a")) return;
+
+      if (selectedProject) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          window.open(selectedProject.href, "_blank", "noopener,noreferrer");
+        }
+
+        if (e.key === "Escape") {
+          e.preventDefault();
+          setSelectedProjectId(null);
+        }
+
+        return;
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIndex((index) => Math.max(0, index - 1));
+      }
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIndex((index) => Math.min(ITEMS.length - 1, index + 1));
+      }
+
+      if (e.key === "Enter") {
+        e.preventDefault();
+        setSelectedProjectId(ITEMS[activeIndex].id);
+      }
+
+      if (e.key === "ArrowLeft" || e.key === "Escape" || e.key === "Backspace") {
+        navigate("/");
+      }
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [navigate]);
+  }, [activeIndex, navigate, selectedProject]);
 
   return (
     <div id="menu-screen">
@@ -111,6 +161,13 @@ export default function ResumePage() {
 
         .resume-card-wrap {
           position: relative;
+          width: 100%;
+          padding: 0;
+          border: 0;
+          appearance: none;
+          background: transparent;
+          text-align: left;
+          font: inherit;
           opacity: 0;
           transform: translateX(-48px);
           transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -120,6 +177,10 @@ export default function ResumePage() {
         .resume-card-wrap.mounted {
           opacity: 1;
           transform: translateX(0);
+        }
+        .resume-card-wrap:focus-visible {
+          outline: 3px solid #ffffff;
+          outline-offset: 6px;
         }
 
         .resume-card {
@@ -271,7 +332,7 @@ export default function ResumePage() {
         .resume-detail-top {
           position: relative;
           display: grid;
-          grid-template-columns: 70px 1fr auto;
+          grid-template-columns: 70px 1fr;
           align-items: center;
           gap: 14px;
           min-height: 92px;
@@ -292,82 +353,63 @@ export default function ResumePage() {
           line-height: 0.92;
           letter-spacing: 1px;
         }
-        .resume-detail-top-progress {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 42px;
-          letter-spacing: 2px;
-          line-height: 1;
+        .resume-project-link:focus-visible {
+          outline: 3px solid #ffffff;
+          outline-offset: 4px;
         }
-        .resume-detail-list {
+        .resume-project-description {
           position: relative;
+          width: min(100%, 430px);
+          aspect-ratio: 1;
+          margin: 20px auto 0;
+          padding: 34px 30px;
+          background: rgba(8, 18, 72, 0.96);
+          clip-path: polygon(0 0, 100% 0, calc(100% - 26px) 100%, 0 100%);
+          box-shadow: inset 0 0 0 1px rgba(140, 239, 255, 0.22), 10px 10px 0 rgba(0, 6, 30, 0.26);
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          margin-top: 18px;
+          justify-content: center;
+          overflow: hidden;
         }
-        .resume-detail-row {
-          display: grid;
-          grid-template-columns: 50px 1fr auto;
-          align-items: center;
-          gap: 14px;
-          min-height: 56px;
-          padding: 0 14px;
-          background: rgba(8, 18, 72, 0.96);
-          clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
-          box-shadow: inset 0 0 0 1px rgba(140, 239, 255, 0.12);
-          transition: transform 0.16s ease, background 0.16s ease;
-        }
-        .resume-detail-row:hover {
-          transform: translateX(4px);
-          background: rgba(12, 26, 94, 1);
-        }
-        .resume-detail-row-index {
+        .resume-project-description::before {
+          content: "PROJECT BRIEF";
+          position: absolute;
+          top: 16px;
+          left: 20px;
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 26px;
-          letter-spacing: 1px;
-          color: #94f4ff;
-        }
-        .resume-detail-row-title {
-          font-family: 'Anton', sans-serif;
-          font-size: 28px;
-          line-height: 1;
-          color: #f2fcff;
-        }
-        .resume-detail-status {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 22px;
-          line-height: 1;
-          letter-spacing: 1.1px;
-          color: #06133b;
-          background: #8df6ff;
-          padding: 7px 12px;
-          clip-path: polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
-        }
-        .resume-detail-bottom {
-          position: relative;
-          margin-top: 22px;
-          padding: 18px;
-          background: rgba(5, 13, 57, 0.97);
-          clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
-          box-shadow: inset 0 0 0 1px rgba(145, 239, 255, 0.12);
-        }
-        .resume-detail-bottom-title {
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 30px;
+          font-size: 19px;
           letter-spacing: 2px;
           color: #91f5ff;
-          margin-bottom: 14px;
         }
-        .resume-detail-bullets {
+        .resume-project-description-text {
+          position: relative;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: clamp(22px, 2.1vw, 30px);
+          line-height: 1.05;
+          letter-spacing: 0.7px;
+          color: #f2fcff;
+        }
+        .resume-project-link {
+          position: relative;
           display: flex;
-          flex-direction: column;
-          gap: 10px;
+          align-items: center;
+          justify-content: center;
+          width: min(100%, 430px);
+          min-height: 48px;
+          margin: 18px auto 0;
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: 25px;
+          line-height: 1;
+          letter-spacing: 1.5px;
+          text-decoration: none;
+          color: #06133b;
+          background: #8df6ff;
+          clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+          transition: transform 0.18s ease, background 0.18s ease;
         }
-        .resume-detail-bullet {
-          font-family: 'Anton', sans-serif;
-          font-size: 21px;
-          line-height: 1.15;
-          color: #edfaff;
+        .resume-project-link:hover {
+          background: #ffffff;
+          transform: translateX(4px);
         }
 
         .resume-mobile-controls {
@@ -405,18 +447,21 @@ export default function ResumePage() {
 
       <div className="resume-overlay">
         <div className="resume-stack">
-          <div className={`resume-list-tag${mounted ? " mounted" : ""}`}>LIST</div>
+          <div className={`resume-list-tag${mounted ? " mounted" : ""}`}>LISTADO DE MIS PROYECTOS</div>
           {ITEMS.map((item, index) => (
             <div
               key={item.id}
-              className={`resume-card-wrap${active === index ? " active" : ""}${mounted ? " mounted" : ""}`}
+              className={`resume-card-wrap${activeIndex === index ? " active" : ""}${mounted ? " mounted" : ""}`}
               style={{ transitionDelay: `${index * 55}ms` }}
-              onMouseEnter={() => {
-                setActive(index);
-              }}
               onClick={() => {
-                setActive(index);
+                setActiveIndex(index);
+                setSelectedProjectId((current) => current === item.id ? null : item.id);
               }}
+              role="button"
+              tabIndex={0}
+              aria-pressed={activeIndex === index}
+              aria-expanded={selectedProjectId === item.id}
+              aria-controls="project-detail-panel"
             >
               <div className="resume-card">
                 <div className="resume-badge">
@@ -437,39 +482,27 @@ export default function ResumePage() {
           ))}
         </div>
 
-        {active === 0 && (
-          <div className="resume-detail-panel">
+        {selectedProject && selectedItem && (
+          <section className="resume-detail-panel" id="project-detail-panel" aria-label={`Detalles de ${selectedItem.title}`}>
             <div className="resume-detail-top">
-              <div className="resume-detail-top-index">01</div>
-              <div className="resume-detail-top-title">PROYECTOS</div>
-              <div className="resume-detail-top-progress">7/5</div>
+              <div className="resume-detail-top-index">{selectedItem.rank.toString().padStart(2, "0")}</div>
+              <div className="resume-detail-top-title">{selectedItem.title}</div>
             </div>
 
-            <div className="resume-detail-list">
-              {EDUCATION_ROWS.map((row) => (
-                <div className="resume-detail-row" key={row.index}>
-                  <div className="resume-detail-row-index">{row.index}</div>
-                  <div className="resume-detail-row-title">{row.title}</div>
-                  <div className="resume-detail-status">{row.status}</div>
-                </div>
-              ))}
+            <div className="resume-project-description">
+              <p className="resume-project-description-text">{selectedProject.description}</p>
             </div>
 
-            <div className="resume-detail-bottom">
-              <div className="resume-detail-bottom-title">DETAILS</div>
-              <div className="resume-detail-bullets">
-                <div className="resume-detail-bullet">- Maintain progress across required classes and supporting work.</div>
-                <div className="resume-detail-bullet">- Track portfolio-ready projects tied to coursework and labs.</div>
-                <div className="resume-detail-bullet">- Keep materials prepared for internships, research, and review.</div>
-              </div>
-            </div>
-          </div>
+            <a className="resume-project-link" href={selectedProject.href} target="_blank" rel="noreferrer">
+              VISITAR PROYECTO ↗
+            </a>
+          </section>
         )}
 
       </div>
 
       <div className="resume-mobile-controls" aria-label="Resume mobile controls">
-        <button className="resume-mobile-btn" type="button" onClick={() => navigate(-1)}>
+        <button className="resume-mobile-btn" type="button" onClick={() => navigate("/")}>
           BACK
         </button>
       </div>
