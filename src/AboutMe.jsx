@@ -16,24 +16,20 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 
 const REVEAL_CONTENT = [
   {
-    upper: ["Name: Sebastian", "Age:23"],
-    lower: "Title: Full-Stack Programmer",
+    upper: ["Nombre Completo: Sebastian Eduardo Ayala Lopez", "Edad:23", "Titulo: Programador Junior Full Stack"],
   },
   {
     upper: [
-      "Cleopatra lived closer to the Moon landing than to the building of the pyramids.",
-      "Vikings kept cats on ships for pest control (and vibes).",
-      "In medieval Europe, animals could be put on trial for crimes",
+      "Adaptabilidad y resiliencia", "Creatividad e innovación", "Gestión del tiempo y organización", "Aprendizaje continuo y curiosidad"
     ],
-    lower: "above is some history fun fact",
   },
   {
     upper: [
-      "Oxford University founding is older than the Aztec Empire.",
-      "The shortest war in history lasted 38–45 minutes (Britain vs Zanzibar).",
-      "Humans have been writing for ~5,000 years",
+      "Domino 3 idiomas.",
+      "Español: Nativo",
+      "English: C1 (Avanzado)",
+      "Français: B2 (Intermedio-Avanzado)"
     ],
-    lower: "No, this is NOT a placeholder",
   },
 ];
 
@@ -45,7 +41,7 @@ const ROLES = [
 
 const ITEMS = [
   {
-    id: "twitch", label: "ABOUT ME", handle: "@yourname", href: "https://twitch.tv/yourname", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["56"],
+    id: "twitch", label: "QUIEN SOY?", handle: "@yourname", href: "https://twitch.tv/yourname", icon: "🎮", barIcon: icon1, bars: 1, newBars: [0], counts: ["56"],
     links: ["twitch.tv/videos/2041837265"],
     stats: [
       { tag: "FOL", value: "1.2K", color: "#9147ff" },
@@ -53,7 +49,7 @@ const ITEMS = [
     ],
   },
   {
-    id: "instagram", label: "FUN FACT ABOUT ME", handle: "@yourhandle", href: "https://instagram.com/yourhandle", icon: "📷", barIcon: icon2, bars: 5, newBars: [1, 2], counts: ["3.4M", "2.5M", "676K", "412K", "198K"],
+    id: "instagram", label: "HABILIDADES BLANDAS", handle: "@yourhandle", href: "https://instagram.com/yourhandle", icon: "📷", barIcon: icon2, bars: 5, newBars: [1, 2], counts: ["3.4M", "2.5M", "676K", "412K", "198K"],
     links: ["instagram.com/p/C4xQmRrNk2a", "instagram.com/p/C3wLpBsOj7f", "instagram.com/reel/C2vKoArMi6e", "instagram.com/p/C1uJnZqLh5d", "instagram.com/reel/C0tImYpKg4c"],
     stats: [
       { tag: "FOL", value: "3.4K", color: "#e1306c" },
@@ -61,7 +57,7 @@ const ITEMS = [
     ],
   },
   {
-    id: "tiktok", label: "WIRED FACT ABOUT ME", handle: "@yourhandle", href: "https://tiktok.com/@yourhandle", icon: "🎵", barIcon: icon3, bars: 7, newBars: [0, 3, 5, 6], counts: ["5.1M", "3.7M", "2.2M", "1.4M", "831K", "490K", "217K"],
+    id: "tiktok", label: "QUE ME DIFERENCIA DE OTROS?", handle: "@yourhandle", href: "https://tiktok.com/@yourhandle", icon: "🎵", barIcon: icon3, bars: 7, newBars: [0, 3, 5, 6], counts: ["5.1M", "3.7M", "2.2M", "1.4M", "831K", "490K", "217K"],
     links: ["tiktok.com/@yourhandle/video/7318492016374859054", "tiktok.com/@yourhandle/video/7305837261940183342", "tiktok.com/@yourhandle/video/7291046385720348974", "tiktok.com/@yourhandle/video/7278392047163820334", "tiktok.com/@yourhandle/video/7264819203847165742", "tiktok.com/@yourhandle/video/7251047382916430126", "tiktok.com/@yourhandle/video/7237294018463851822"],
     stats: [
       { tag: "FOL", value: "8.9K", color: "#00f2ea" },
@@ -117,13 +113,12 @@ export default function AboutMe() {
       <video src={bgVideo} autoPlay loop muted playsInline />
       {revealed && <div key={`dim-${active}`} className="sc-dim" />}
       {revealed && (
-        <div key={`panel-${active}`} className={`sc-reveal-panel${mounted ? " mounted" : ""}`}>
+                <div key={`panel-${active}`} className={`sc-reveal-panel${mounted ? " mounted" : ""}`}>
           <div className="sc-reveal-upper-bar">
             {REVEAL_CONTENT[active].upper.map((line) => (
               <div className="sc-reveal-upper-line" key={line}>{line}</div>
             ))}
           </div>
-          <div className="sc-reveal-lower-bar">{REVEAL_CONTENT[active].lower}</div>
         </div>
       )}
       {revealed && (
@@ -221,13 +216,13 @@ export default function AboutMe() {
           50% { transform: translateX(5px); opacity: 0.4; }
         }
 
-        .sc-main-portrait-shell {
+                .sc-main-portrait-shell {
           position: absolute;
           top: 0;
-          right: -3vw;
+          right: 0;
           z-index: 13;
           pointer-events: none;
-          width: 43vw;
+          width: 34vw;
           height: 100vh;
           overflow: hidden;
           opacity: 0;
@@ -240,12 +235,12 @@ export default function AboutMe() {
           animation: sc-portrait-in 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .sc-reveal-panel {
+                                  .sc-reveal-panel {
           position: absolute;
-          top: 44vh;
-          left: -6vw;
-          width: 88vw;
-          height: 60vh;
+          top: 46vh;
+          left: -3vw;
+          width: 83vw;
+          height: 34vh;
           z-index: 12;
           pointer-events: none;
           background:
@@ -275,12 +270,12 @@ export default function AboutMe() {
           background: linear-gradient(180deg, #e03d31 0%, #eb3333 100%);
           clip-path: inherit;
         }
-        .sc-reveal-upper-bar {
+                .sc-reveal-upper-bar {
           position: absolute;
-          top: 10%;
+          top: 8%;
           left: 0%;
           width: 100%;
-          height: 40%;
+          height: 84%;
           background: rgba(0, 0, 0, 0.92);
           clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
           box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
@@ -288,42 +283,19 @@ export default function AboutMe() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 10px;
+          gap: 14px;
           color: #fff;
           text-align: center;
+          padding: 16px 24px;
         }
-        .sc-reveal-upper-line {
+                .sc-reveal-upper-line {
           font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          font-size: 20px;
+          font-weight: 400;
+          font-size: 30px;
           letter-spacing: 0.5px;
-          line-height: 1.15;
+          line-height: 1.25;
+          transform: translateX(-18px);
         }
-        .sc-reveal-lower-bar {
-          position: absolute;
-          top: 58%;
-          right: 0;
-          width: 48%;
-          min-height: 20%;
-          max-height: 34%;
-          background: rgba(0, 0, 0, 0.92);
-          clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
-          display: flex;
-          align-items: flex-start;
-          justify-content: flex-start;
-          color: #fff;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 300;
-          font-size: 22px;
-          line-height: 1.18;
-          letter-spacing: 0.4px;
-          text-transform: lowercase;
-          white-space: normal;
-          overflow-y: auto;
-          padding: 10px 18px 10px 22px;
-        }
-
         @keyframes sc-right-nav-pop {
           0%   { opacity: 0; transform: scale(0.55) translateY(-10px); }
           65%  { opacity: 1; transform: scale(1.1) translateY(2px); }
@@ -373,12 +345,12 @@ export default function AboutMe() {
         .sc-right-nav .sc-nav-arrow.left  { animation: sc-arrow-left  0.8s ease-in-out infinite; }
         .sc-right-nav .sc-nav-arrow.right { animation: sc-arrow-right 0.8s ease-in-out infinite; }
 
-        .sc-main-portrait {
+                .sc-main-portrait {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: top right;
-          transform: skewX(8deg) scale(1.08);
+          object-position: top center;
+          transform: skewX(8deg) scale(1);
           transform-origin: top right;
         }
 
@@ -739,23 +711,22 @@ export default function AboutMe() {
           }
         }
 
-        @media (min-width: 769px) and (max-width: 1200px) {
+                        @media (min-width: 769px) and (max-width: 1200px) {
           .sc-main-portrait-shell {
-            right: -6vw;
-            width: 44vw;
+            right: 0;
+            width: 36vw;
             height: 92vh;
           }
 
-          .sc-reveal-panel {
-            top: 46vh;
-            left: -2vw;
-            width: 78vw;
-            height: 52vh;
-            transform: translateX(0) rotate(-14deg);
+                                        .sc-reveal-panel {
+            top: 48vh;
+            left: -3vw;
+            width: 76vw;
+            height: 38vh;
+            transform: translateX(0) rotate(-16deg);
           }
-
           .sc-reveal-panel.mounted {
-            transform: translateX(0) rotate(-14deg);
+            transform: translateX(0) rotate(-16deg);
           }
         }
       `}</style>
