@@ -13,23 +13,23 @@ const ITEMS = [
 const PROJECT_DETAILS = [
   {
     id: "i",
-    description: "Escribe aquí una breve descripción de Music Stream: su objetivo, las tecnologías que utilizaste y lo que aprendiste durante el proyecto.",
-    href: "https://example.com/music-stream",
+    description: "Tienda virtual de música en línea, con un diseño atractivo y funcional. Implementé HTML y CSS para crear una experiencia de usuario envolvente.",
+    href: "https://music-stream-app.vercel.app/",
   },
   {
     id: "ii",
-    description: "Escribe aquí una breve descripción de Campus Build: el problema que resuelve, sus funciones principales y tu aporte al desarrollo.",
-    href: "https://example.com/campus-build",
+    description: "Dashboard empresarial para la gestión de proyectos, utilizando JavaScript para la interactividad y la manipulación del DOM. El proyecto permite a los usuarios organizar y visualizar sus tareas de manera eficiente.",
+    href: "https://proyecto-js-phi.vercel.app/index.html",
   },
   {
     id: "iii",
-    description: "Escribe aquí una breve descripción de Neo Metro: el reto de la hackatón, la solución propuesta y los resultados que obtuvo.",
-    href: "https://example.com/neo-metro",
+    description: "Sistema de gestion de reportes ciudadanos inmediata de accidentes usando un bot de Telegram automatizado usando N8N.",
+    href: "https://hackaton-eta-three.vercel.app/",
   },
   {
     id: "iv",
-    description: "Escribe aquí una breve descripción de Chibi Penguin Studio: cómo aplicaste la IA y qué experiencia ofrece el proyecto.",
-    href: "https://example.com/chibi-penguin-studio",
+    description: "Tienda virtual de productos de la marca Chibi Penguin, con un diseño moderno y funcional. Implementé HTML, CSS y TypeScript para crear una experiencia de usuario atractiva aprovechando la IA de Lovable.",
+    href: "https://chibi-penguin-studio.vercel.app/",
   },
 ];
 
@@ -372,7 +372,7 @@ export default function ResumePage() {
           overflow: hidden;
         }
         .resume-project-description::before {
-          content: "PROJECT BRIEF";
+          content: "Resumen del proyecto";
           position: absolute;
           top: 16px;
           left: 20px;
